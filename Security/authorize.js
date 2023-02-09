@@ -13,18 +13,47 @@ async function authorize (req,res,next){
   }
   console.log(data)
   const user = await db.User.findOne({where:{username:data.name}})
-  console.log(user)
-  console.log(user.password)
-  console.log(data.pass)
+  if(!user){
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    console.log("user not found")
+    res.status(400).send("User not found")
+    return
+  }
+  if(req.params.pid){
+    const product = await db.Product.findOne({where:{id:req.params.pid}})
+    if(!product){
+      res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+      console.log("product not found")
+      // res.sendStatus(400);
+      res.status(400).send("Product not found")
+      // res.message = "Product not found";
+      return
+    }
+
+  if (req.params.pid && user.id !=product.owner_user_id ) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    res.sendStatus(403);
+    return
+  }
+}
+
+  if (req.params.id && user.id !=req.params.id ) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    res.sendStatus(403).send("Forbidden-user id");
+    return
+  }
+
+
   if (!(await bcrypt.compare(data.pass, user.password)))
   {
     res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-    res.sendStatus(401);
+    res.sendStatus(401).send("wrong password");
     return
   }
   console.log("authentication user details")
   console.log(user) 
   req.ctx={};
   req.ctx.user = data;
+  req.ctx.user.id = user.id;
   next()
 }

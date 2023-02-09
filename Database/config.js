@@ -4,5 +4,5 @@ module.exports = Object.freeze({
     SERVER_PORT:3000,
     SALT_ROUND:10,
     HOST:'localhost',
-    DATABASE:'webserver'
+    DATABASE:'webappdata'
   });
