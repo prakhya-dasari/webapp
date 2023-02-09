@@ -12,7 +12,7 @@ async function  create_User(user) {
   if (user.password) {
     user.hash = await bcrypt.hash(user.password, 10);
   }
-  user.id = uuid.v4();
+  //user.id = uuid.v4();
   let date_object = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
   user.create_time = date_object;
   user.update_time = date_object;
@@ -54,7 +54,7 @@ async function update_User(data,user){
                   last_name:userDetails.last_name,
                   update_time:userDetails.update_time
                   },{where:{username:user.name}})
-
+  return {id:userDetails.id,username:userDetails.username,first_name:userDetails.first_name,last_name:userDetails.last_name,account_created:userDetails.account_created,account_updated:userDetails.account_updated}
 }
 
 async function get_User({username}){

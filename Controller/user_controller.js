@@ -5,8 +5,8 @@ const authorize = require('../Security/authorize.js')
 const userService = require('../Services/user_service');
 const {validateCreateUser,validateUpdateUser} = require('../Security/validation');
 
-router.get('/self',authorize,get_UserDetails)
-router.put('/self',authorize,validateUpdateUser,update_UserDetails);
+router.get('/:id',authorize,get_UserDetails)
+router.put('/:id',authorize,validateUpdateUser,update_UserDetails);
 router.post('/',validateCreateUser,create_UserDetails);
 module.exports = router;
 
