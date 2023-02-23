@@ -14,6 +14,7 @@ function validateCreateUser(req, res, next) {
     res.send()
     return;
   }
+ 
   if(!req.body['last_name'] || req.body['last_name'].trim().length <= 0){
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
@@ -33,7 +34,7 @@ function validateCreateUser(req, res, next) {
 
 function validateUpdateUser(req, res, next) {
 
-  console.log('inside validate')
+  //console.log('inside validate')
   if(req.body['username'] ){
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
@@ -106,10 +107,16 @@ function validate_Update_Product(req, res, next) {
     res.send({"error":'manufacturer can\'t be empty'});
     return;
   }
-  if(!req.body['quantity']|| !(Number.isInteger(req.body['quantity']) && req.body['quantity'] >= 0)){
+  if(!req.body['quantity']){
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
     res.send({"error":'quantity can\'t be empty'});
+    return;
+  }
+  if(!(Number.isInteger(req.body['quantity']) && req.body['quantity'] >= 0 && req.body['quantity'] <= 100)){
+    res.status(400);
+    res.setHeader('Content-Type', 'application/json');
+    res.send({"error":'Enter Valid quantity between 0 and 100'});
     return;
   }
   if(req.body['date_added'] ){
@@ -157,7 +164,7 @@ function validate_Patch_Product(req, res, next) {
     res.send({"error":'manufacturer can\'t be empty'});
     return;
   }
-  if(req.body['quantity'] && !(Number.isInteger(req.body['quantity']) && req.body['quantity'] >= 0)){
+  if(req.body['quantity'] && !(Number.isInteger(req.body['quantity']) && req.body['quantity'] >= 0 && req.body['quantity'] <=100)){
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
     res.send({"error":'Enter valid Quantity'});

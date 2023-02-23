@@ -16,7 +16,7 @@ async function authorize (req,res,next){
   if(!user){
     res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
     console.log("user not found")
-    res.status(400).send("User not found")
+    res.status(404).send("User not found")
     return
   }
   if(req.params.pid){
@@ -25,7 +25,7 @@ async function authorize (req,res,next){
       res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
       console.log("product not found")
       // res.sendStatus(400);
-      res.status(400).send("Product not found")
+      res.status(404).send("Product not found")
       // res.message = "Product not found";
       return
     }
