@@ -36,21 +36,21 @@ variable "profile" {
   type    = string
   default = "dev"
 }
-
+variable "ami_users" {
+  type    = list(string)
+  default = ["284501684596","211557098291"]
+}
 
 
 source "amazon-ebs" "custom-ami" {
   profile    = var.profile
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
   region     = var.aws_region
-  // ami_name   = "csye6225_${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   ami_name         = "csye6225_${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   instance_type    = var.instance_type
   source_ami       = var.source_ami
   ssh_username     = var.ssh_username
   ami_description  = var.ami_description
-  ami_users        = ["111670577907","777316955194"]
+  ami_users        = var.ami_users
   force_deregister = true
   aws_polling {
     delay_seconds = 120
@@ -59,7 +59,7 @@ source "amazon-ebs" "custom-ami" {
   launch_block_device_mappings {
     delete_on_termination = true
     device_name           = "/dev/xvda"
-    volume_size           = 8
+    volume_size           = 50
     volume_type           = "gp2"
   }
   // force_deregister_snapshot = true
@@ -86,22 +86,15 @@ build {
       "sudo yum -y update",
       "curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -",
       "sudo yum -y install nodejs",
-      "node -v"
+      "node -v",
+      "sudo yum -y install mysql",
+      "mkdir /home/ec2-user/webapp",
+      "chown ec2-user:ec2-user /home/ec2-user/webapp"
+    
     ]
   }
 
-  provisioner "shell" {
-    inline = [
-      "sudo yum install https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm -y",
-      "sudo yum install mysql-community-server -y",
-      "sudo systemctl enable mysqld",
-      "sudo systemctl start mysqld",
-      "test=$(sudo grep 'temporary password' /var/log/mysqld.log | awk {'print $13'})",
-      "mysql --connect-expired-password -u root -p$test -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Aparanji@168';\"",
-      "mkdir /home/ec2-user/webapp",
-      "chown ec2-user:ec2-user /home/ec2-user/webapp"
-    ]
-  }
+
 
   provisioner "file" {
     source      = "./"
