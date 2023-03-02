@@ -1,6 +1,6 @@
 const fs = require('fs');
 const db = require('../Database/db'); 
-const productService = require('../Service/product_service');
+const productService = require('./product_service');
 const sss= require('../s3');
 
 async function createImage(req, res) {
@@ -31,7 +31,7 @@ async function createImage(req, res) {
 
 
        const s3lostored =   await  sss.uploadImage(file);
-       console.log("s3lostored chudham", s3lostored);
+       console.log("stored in s3", s3lostored);
 
        const image = {
         product_id: productId,

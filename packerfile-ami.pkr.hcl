@@ -9,12 +9,7 @@ packer {
 }
 
 
-variable "aws_access_key" {
-  default = "AKIARUAAVZLZ263RF6QQ"
-}
-variable "aws_secret_key" {
-  default = "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"
-}
+
 variable "aws_region" {
   default = "us-east-1"
 }

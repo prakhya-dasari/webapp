@@ -1,9 +1,9 @@
 
-const { validate } = require('email-validator');
+//const { validate } = require('email-validator');
 const express = require('express');
 const router = express.Router();
-const auth = require('../Security/auth.js')
-const imageService = require('../Service/imageService');
+const auth = require('../Security/authorize.js')
+const imageService = require('../Services/image_service');
 const multer = require('multer');
 
 // Configure multer
