@@ -79,7 +79,7 @@ Delete Product
 
 Git Commands : 
 git clone "github/shh" link
-git checkout -b Assig2
+git checkout -b Assig5
 git status
 git add .
 git commit -m "msg"
