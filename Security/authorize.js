@@ -19,6 +19,26 @@ async function authorize (req,res,next){
     res.status(404).send("User not found")
     return
   }
+
+  if(req.params.pid && req.params.image_id){
+    const onlyImage = await db.Image.findOne({where:{image_id:req.params.image_id}})
+
+    const ProductImage = await db.Image.findOne({
+      where: {
+          image_id: req.params.image_id,
+          product_id: req.params.pid
+      }
+  });
+
+  if(onlyImage){
+    if (!ProductImage) {
+        return res.status(403).send("Forbidden");
+    }
+}else{
+    return res.status(404).send("Image not Found");
+}
+  }
+
   if(req.params.pid){
     const product = await db.Product.findOne({where:{id:req.params.pid}})
     if(!product){

@@ -107,13 +107,13 @@ function validate_Update_Product(req, res, next) {
     res.send({"error":'manufacturer can\'t be empty'});
     return;
   }
-  if(!req.body['quantity']){
-    res.status(400);
-    res.setHeader('Content-Type', 'application/json');
-    res.send({"error":'quantity can\'t be empty'});
-    return;
-  }
-  if(!(Number.isInteger(req.body['quantity']) && req.body['quantity'] >= 0 && req.body['quantity'] <= 100)){
+  // if(!req.body['quantity']){
+  //   res.status(400);
+  //   res.setHeader('Content-Type', 'application/json');
+  //   res.send({"error":'quantity can\'t be empty'});
+  //   return;
+  // }
+  if(req.body['quantity'] && !(Number.isInteger(req.body['quantity']) && req.body['quantity'] >= 0 && req.body['quantity'] <= 100)){
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
     res.send({"error":'Enter Valid quantity between 0 and 100'});
