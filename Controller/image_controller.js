@@ -32,7 +32,7 @@ router.delete('/product/:pid/image/:image_id', auth, deleteImage);
 function uploadNewImage(req, res, next) {
     imageService.createImage(req, res)
         .then(data => { res.status(201); res.json(data) })
-        .catch(data => { console.log(data); res.sendStatus(400); next() });
+        .catch(data => { console.log(data); next() });
 }
 
 function getImageById(req, res, next) {
@@ -51,7 +51,7 @@ function getAllImages(req, res, next) {
 function deleteImage(req, res, next) {
     imageService.deleteImage(req, res)
         .then(data => { res.status(204); res.json(data) })
-        .catch(data => { console.log(data); res.sendStatus(404); next() });
+        .catch(data => { console.log(data); next() });
 }
 
 module.exports = router;
