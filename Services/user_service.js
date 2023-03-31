@@ -1,6 +1,8 @@
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const db = require('../Database/db');
+const logger = require('../logger');
+
 
 async function  create_User(user) {
   await db.initialize();
@@ -24,7 +26,7 @@ async function  create_User(user) {
 }
 
 async function update_User(data,user){
-  console.log('inside update user')
+  logger.info('inside update user')
   let userDetails = await db.User.findOne({ where: { username: user.name } })
   if (!userDetails) {
     throw user.username + " does not exists";
@@ -60,7 +62,7 @@ async function update_User(data,user){
 async function get_User({username}){
   const data = await db.User.findOne({ where: { username: username } });
   const {id,first_name,last_name,create_time,update_time} = data.dataValues;
-  console.log({id,username,first_name,last_name,create_time,update_time});
+  logger.info({id,username,first_name,last_name,create_time,update_time});
   return {id,username,first_name,last_name,create_time,update_time}
 
 }

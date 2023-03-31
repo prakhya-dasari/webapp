@@ -2,16 +2,20 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 const router = express.Router();
+const logger = require('./logger');
+const client = require('./statsd');
 
 
 router.get('/healthz', (req, res) => {
-    console.log('inside get request');
+    logger.info('inside get request');
+    client.increment('Get Health Check',1)
     res.send("successful endpoint check");
 });
 
 
 
 router.get('*', (req, res) => {
+  logger.error("rl not defined");
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
     res.send({"error":'url not defined'});

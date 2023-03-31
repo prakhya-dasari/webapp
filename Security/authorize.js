@@ -3,6 +3,8 @@ const db = require('../Database/db');
 const basicAuth = require('basic-auth');
 const bcrypt = require('bcryptjs');
 module.exports = authorize;
+const logger = require('../logger');
+
 
 async function authorize (req,res,next){
   const data = basicAuth(req);
@@ -15,7 +17,7 @@ async function authorize (req,res,next){
   const user = await db.User.findOne({where:{username:data.name}})
   if(!user){
     res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-    console.log("user not found")
+    logger.info("user not found")
     res.status(404).send("User not found")
     return
   }
@@ -43,7 +45,7 @@ async function authorize (req,res,next){
     const product = await db.Product.findOne({where:{id:req.params.pid}})
     if(!product){
       res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-      console.log("product not found")
+      logger.info("product not found")
       // res.sendStatus(400);
       res.status(404).send("Product not found")
       // res.message = "Product not found";
@@ -70,7 +72,7 @@ async function authorize (req,res,next){
     res.sendStatus(401).send("wrong password");
     return
   }
-  console.log("authentication user details")
+  logger.info("authentication user details")
   console.log(user) 
   req.ctx={};
   req.ctx.user = data;

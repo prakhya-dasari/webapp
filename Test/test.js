@@ -1,6 +1,7 @@
 const http = require('http');
 const assert = require('assert');
 const app = require('../server');
+const logger = require('../logger');
 
 
 

@@ -1,6 +1,9 @@
 const config = require('./config');
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
+const logger = require('../logger');
+
+
 module.exports = db= {};
 let isRunnable= false;
 db.initialize = initialize;
