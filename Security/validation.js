@@ -7,7 +7,7 @@ function validateCreateUser(req, res, next) {
     logger.error("Invalid email provided");
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
-    res.send({"error":'invalid email provided'});
+    //res.send("error,":'invalid email provided'});
     return;
   }
   if(!req.body['password'] || req.body['password'].trim().length <= 5){
@@ -40,7 +40,7 @@ function validateCreateUser(req, res, next) {
 
 function validateUpdateUser(req, res, next) {
 
-  logger.info('inside validate')
+  logger.error('inside validate')
   if(req.body['username'] ){
     logger.error("Invalid username provided");
     res.status(400);
@@ -94,7 +94,7 @@ function validateUpdateUser(req, res, next) {
 
 function validate_Update_Product(req, res, next) {
 
-  logger.info('inside product validate')
+  logger.error('inside product validate')
   if(!req.body['name']){
     logger.error("Invalid name provided");
     res.status(400);
@@ -155,10 +155,10 @@ function validate_Update_Product(req, res, next) {
 
 function validate_Patch_Product(req, res, next) {
 
-  logger.info('inside product validate')
+  logger.error('inside product validate')
   
   if(req.body.hasOwnProperty('name') && req.body['name'].trim().length<=0){
-    logger.info('inside name'+req.body['name'].trim().length==0)
+    logger.error('inside name'+req.body['name'].trim().length==0)
     logger.error("name can\'t be empty");
     res.status(400);
     res.setHeader('Content-Type', 'application/json');

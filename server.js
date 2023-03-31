@@ -7,15 +7,15 @@ const client = require('./statsd');
 
 
 router.get('/healthz', (req, res) => {
-    logger.info('inside get request');
-    client.increment('Get Health Check',1)
+   //logger.info('inside get request');
+    //client.increment('Get Health Check',1)
     res.send("successful endpoint check");
 });
 
 
 
 router.get('*', (req, res) => {
-  logger.error("rl not defined");
+  //logger.info("url not defined");
     res.status(400);
     res.setHeader('Content-Type', 'application/json');
     res.send({"error":'url not defined'});
