@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const db = require('../Database/db'); 
 const sss = require('../s3');
+const logger = require('../logger');
 
 module.exports = {
     create_Newproduct,
@@ -11,7 +12,7 @@ module.exports = {
     deleteProduct
 }
 async function  create_Newproduct(params, req, res) {
-     console.log("Please here me prod service");
+    logger.info("Please here me prod service");
     if (await db.Product.findOne({ where: { sku: params.sku } })) {
         res.status(400).send("SKU already exists");
         throw 'SKU "' + params.sku + '" already exists, please enter a different SKU';
@@ -83,7 +84,7 @@ async function getProductById(pid) {
 async function patch(productId, params, req, res) {
     //we get this user object from the db
     const product = await getProduct(productId);
-    console.log(product+" kajshdk");
+    logger.info(product+"Product");
 
     let date_ob = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
      params.date_last_updated = date_ob
@@ -148,7 +149,7 @@ async function deleteProduct(productId, req) {
     for (let i = 0; i < getAllImages.length; i++) {
         const image = getAllImages[i];
         const Key = image.s3_bucket_path;
-        console.log(Key);
+        logger.info("Key",Key);
         await sss.deleteFile(Key);
     }
 

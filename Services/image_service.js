@@ -2,13 +2,15 @@ const fs = require('fs');
 const db = require('../Database/db'); 
 const productService = require('./product_service');
 const sss= require('../s3');
+const logger = require('../logger');
+
 
 async function createImage(req, res) {
 
     const productId = req.params.pid;
-    console.log("productId", productId)
+    logger.info("productId", productId)
     const file = req.file;
-    console.log("file", req.file)
+    logger.info("file", req.file)
     if (!file) {
         res.status(400).send('No file uploaded.');
         throw 'No file uploaded.';
@@ -17,7 +19,7 @@ async function createImage(req, res) {
 
     const product = await productService.getProduct(productId);
 
-    console.log("product", product.dataValues);
+    logger.info("product", product.dataValues);
 
     if (!product) {
         res.status(404).send('Product not found.');
@@ -31,7 +33,7 @@ async function createImage(req, res) {
 
 
        const s3lostored =   await  sss.uploadImage(file);
-       console.log("stored in s3", s3lostored);
+       logger.info("stored in s3", s3lostored);
 
        const image = {
         product_id: productId,
@@ -41,7 +43,7 @@ async function createImage(req, res) {
     };
     const result = await db.Image.create(image);
 
-    console.log(result.image_id, "image_id")
+    logger.info(result.image_id, "image_id")
     return {
         image_id: result.image_id,
         product_id: result.product_id,
@@ -76,7 +78,7 @@ const getAllImages = async (req, res) => {
 
 const getImageById = async (req, res) => {
 
-    console.log("req.params", req.params);
+    logger.info("req.params", req.params);
 
     // Get product and image ids from request params
     const { pid, image_id } = req.params;
@@ -135,7 +137,7 @@ const deleteImage = async (req, res) => {
         return res.status(404).send('Image not found.');
     }
     const deleted = await  sss.deleteFile(image.s3_bucket_path);
-    console.log("deleted chudham", deleted)
+    logger.info("deleted ", deleted)
     await image.destroy();
 return image;
 }

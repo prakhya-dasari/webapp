@@ -1,5 +1,7 @@
 const aws = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
+const logger = require('./logger');
+
 const env = process.env
 
 const bucketName = env.S3_BUCKET_NAME;
@@ -20,7 +22,7 @@ const uploadImage = (file) => {
     if (err) {
       throw err;
     }
-    console.log(`File uploaded successfully. ${data.Location}`);
+    logger.info(`File uploaded successfully. ${data.Location}`);
   });
   return params.Key;
 }
@@ -32,12 +34,12 @@ const deleteFile = (originalname) => {
   };
   s3.deleteObject(params, function (err, data) {
     if (err) {
-      console.log(err);
+      logger.info(err);
       return;
     }
   })
 }
-
+ 
 
 
 module.exports = { uploadImage, deleteFile }

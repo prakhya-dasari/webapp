@@ -9,6 +9,7 @@
         "zip": "sh createzip.sh"
     },
     "dependencies": {
+        "app-root-path": "^3.1.0",
         "aws-sdk": "^2.1326.0",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.19.2",
@@ -22,9 +23,11 @@
         "multer": "^1.4.5-lts.1",
         "mysql": "^2.18.1",
         "mysql2": "^2.3.3",
+        "node-statsd": "^0.1.1",
         "path": "^0.12.7",
         "sequelize": "^6.17.0",
-        "uuid": "^8.3.2"
+        "uuid": "^8.3.2",
+        "winston": "^3.8.2"
     },
     "devDependencies": {
         "nodemon": "^2.0.15"
