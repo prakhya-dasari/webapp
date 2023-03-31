@@ -13,7 +13,7 @@ async function initialize() {
   if(isRunnable){
     return;
   }
-  console.log("inside initializing")
+  logger.info("inside initializing")
     // create db if it doesn't already exist
     const { DB_PORT,HOST, SERVER_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DATABASE } = config;
 

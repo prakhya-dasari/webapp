@@ -22,7 +22,7 @@ const uploadImage = (file) => {
     if (err) {
       throw err;
     }
-    logger.info(`File uploaded successfully. ${data.Location}`);
+    console.log(`File uploaded successfully. ${data.Location}`);
   });
   return params.Key;
 }
@@ -34,7 +34,7 @@ const deleteFile = (originalname) => {
   };
   s3.deleteObject(params, function (err, data) {
     if (err) {
-      logger.info(err);
+      console.log(err);
       return;
     }
   })
