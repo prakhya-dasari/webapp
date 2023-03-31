@@ -149,7 +149,7 @@ async function deleteProduct(productId, req) {
     for (let i = 0; i < getAllImages.length; i++) {
         const image = getAllImages[i];
         const Key = image.s3_bucket_path;
-        logger.info("Key",Key);
+        console.log("Key",Key);
         await sss.deleteFile(Key);
     }
 

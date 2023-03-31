@@ -10,7 +10,7 @@ async function createImage(req, res) {
     const productId = req.params.pid;
     logger.info("productId", productId)
     const file = req.file;
-    logger.info("file", req.file)
+    console.log("file", req.file)
     if (!file) {
         res.status(400).send('No file uploaded.');
         throw 'No file uploaded.';
@@ -33,7 +33,7 @@ async function createImage(req, res) {
 
 
        const s3lostored =   await  sss.uploadImage(file);
-       logger.info("stored in s3", s3lostored);
+       console.log("stored in s3", s3lostored);
 
        const image = {
         product_id: productId,
@@ -78,7 +78,7 @@ const getAllImages = async (req, res) => {
 
 const getImageById = async (req, res) => {
 
-    logger.info("req.params", req.params);
+    console.log("req.params", req.params);
 
     // Get product and image ids from request params
     const { pid, image_id } = req.params;
@@ -137,7 +137,7 @@ const deleteImage = async (req, res) => {
         return res.status(404).send('Image not found.');
     }
     const deleted = await  sss.deleteFile(image.s3_bucket_path);
-    logger.info("deleted ", deleted)
+    console.log("deleted ", deleted)
     await image.destroy();
 return image;
 }
