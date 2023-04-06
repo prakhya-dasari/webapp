@@ -8,7 +8,7 @@ const client = require('./statsd');
 
 router.get('/healthz', (req, res) => {
    logger.info('inside get request');
-    //client.increment('Get Health Check',1)
+    client.increment('Get Health Check',1)
     res.send("successful endpoint check");
 });
 
