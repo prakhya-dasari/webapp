@@ -23,9 +23,9 @@ router.get('*', (req, res) => {
 });
 
 
-app.use('/v2/user', require('./Controller/user_controller'));
-app.use('/v2/product', require('./Controller/product_controller'));
-app.use('/v2', require('./Controller/image_controller'));
+app.use('/v1/user', require('./Controller/user_controller'));
+app.use('/v1/product', require('./Controller/product_controller'));
+app.use('/v1', require('./Controller/image_controller'));
 app.use('/', router);
 // app.use((err, req, res, next) => {
 //   console.error(err.stack);
