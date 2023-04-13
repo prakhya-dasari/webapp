@@ -24,4 +24,13 @@ jobs:
       run: packer init packerfile-ami.pkr.hcl
 
     - name: Building Packer Template
-      run: packer build  -var 'ami_users=${{env.AWS_AMI_USERS}}' packerfile-ami.pkr.hcl
+      run: packer build  -var 'ami_users=${{env.AWS_AMI_USERS}}' packerfile-ami.pkr.hcl 2>&1 | sudo tee name.txt; tail -2 name.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' >> ami_name.txt
+
+    - name: Create new launch template
+      run: cat ami_name.txt | while read ami; do aws ec2 create-launch-template-version --launch-template-name webapp-launch-template --version-description v1 --source-version 1 --launch-template-data "ImageId=$ami"; done
+
+    - name: Update the autoscaling group  
+      run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name webapp-autoscaling-group --launch-template LaunchTemplateName=webapp-launch-template,Version='$Latest'
+
+    - name: Instance refresh
+      run: aws autoscaling start-instance-refresh --auto-scaling-group-name webapp-autoscaling-group
